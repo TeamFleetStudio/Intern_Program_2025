@@ -1,0 +1,23 @@
+/* 1️⃣ Import Google Font FIRST */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-ibm: "IBM Plex Mono", monospace;
+  --font-playfair: "Playfair Display", serif;
+  --font-lato: "Lato", sans-serif;
+}
+
+body {
+    width: 100%;
+    margin: 0;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-ibm);
+  }
+}
