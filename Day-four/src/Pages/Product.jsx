@@ -32,6 +32,25 @@ const Product = () => {
   const [verticalSliderLg, setVerticalSliderLg] = useState(null);
   const [verticalSliderSm, setVerticalSliderSm] = useState(null);
 
+  const totalImages = images.length;
+
+    const goToIndex = (index) => {
+        setSelectedImg(index);
+
+        horizontalSlider?.slideTo(index);
+        verticalSliderLg?.slideTo(index);
+        verticalSliderSm?.slideTo(index);
+    };
+
+    const goNext = () => {
+        const nextIndex = (selectedImg + 1) % totalImages;
+        goToIndex(nextIndex);
+    };
+
+    const goPrev = () => {
+        const prevIndex = (selectedImg - 1 + totalImages) % totalImages;
+        goToIndex(prevIndex);
+    };
 
   return (
     <section className='min-h-screen lg:h-screen overflow-visible lg:overflow-hidden flex gap-x-6 mx-2 md:mx-4 lg:mx-8 p-4'>
@@ -54,18 +73,12 @@ const Product = () => {
                     <SwiperSlide key={index} role='group' aria-roledescription="slide"
                     aria-label={`Slide ${index + 1} of ${images.length}`}
                     tabIndex={0}
-                    onClick={() => {
-                        setSelectedImg(index);
-                        horizontalSlider?.slideTo(index);
-                        verticalSliderLg?.slideTo(index);
-                    }}
+                    onClick={() => goToIndex(index)}
                     onKeyDown={(e) => {
                         if (e.key === "Enter" || e.key === " ") {
-                        setSelectedImg(index);
-                        horizontalSlider?.slideTo(index);
-                        verticalSliderLg?.slideTo(index);
+                            goToIndex(index);
                         }
-                    }}
+                        }}
                     className="cursor-pointer" >
                     <img
                         src={img}
@@ -86,10 +99,7 @@ const Product = () => {
                     className="cursor-pointer absolute -left-5 top-1/2 -translate-y-1/2 
                         w-10 h-10 bg-white rounded-full border-2 border-black
                         flex items-center justify-center hover:bg-gray-100 z-50"
-                    onClick={() => {
-                    horizontalSlider?.slidePrev();
-                    verticalSliderSm?.slidePrev();
-                    }}
+                    onClick={goPrev}
                 >
                     <ArrowLeft size={20} />  
                 </button>
@@ -98,8 +108,7 @@ const Product = () => {
                 <Swiper
                     onSwiper={setHorizontalSlider}
                     onSlideChange={(swiper) => {
-                    setSelectedImg(swiper.activeIndex);
-                    verticalSliderLg?.slideTo(swiper.activeIndex);
+                        goToIndex(swiper.activeIndex);
                     }}
                     slidesPerView={1}
                     spaceBetween={10}
@@ -124,10 +133,7 @@ const Product = () => {
                     className="cursor-pointer absolute -right-5 top-1/2 -translate-y-1/2 
                         w-10 h-10 bg-white rounded-full border-2 border-black
                         flex items-center justify-center hover:bg-gray-100 z-50"
-                    onClick={() => {
-                    horizontalSlider?.slideNext();
-                    verticalSliderSm?.slideNext();
-                    }}
+                    onClick={goNext}
                 >
                     <ArrowRight size={20} /> 
                 </button>
@@ -151,18 +157,12 @@ const Product = () => {
                             <SwiperSlide key={index} role='group' aria-roledescription="slide"
                             aria-label={`Slide ${index + 1} of ${images.length}`}
                             tabIndex={0}
-                            onClick={() => {
-                                setSelectedImg(index);
-                                horizontalSlider?.slideTo(index);
-                                verticalSliderSm?.slideTo(index);
-                            }}
+                            onClick={() => goToIndex(index)}
                             onKeyDown={(e) => {
                                 if (e.key === "Enter" || e.key === " ") {
-                                setSelectedImg(index);
-                                horizontalSlider?.slideTo(index);
-                                verticalSliderSm?.slideTo(index);
+                                    goToIndex(index);
                                 }
-                            }}
+                                }}
                             className="cursor-pointer" >
                             <img
                                 src={img}
