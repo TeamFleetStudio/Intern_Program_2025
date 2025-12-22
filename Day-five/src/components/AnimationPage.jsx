@@ -36,7 +36,7 @@ const AnimationPage = () => {
             </button>
         </div>
 
-        <div className="block lg:hidden mt-2">
+        <div className="block md:hidden lg:hidden mt-2">
             <Slider {...sliderSettings}>
 
                 <div>
@@ -123,7 +123,7 @@ const AnimationPage = () => {
             </Slider>
             </div>
 
-        <div className="hidden lg:flex gap-x-10 mt-8">
+        <div className="hidden md:flex lg:flex gap-x-10 mt-8">
             {cards.map((card, index) => (
             <div
                 key={index}
