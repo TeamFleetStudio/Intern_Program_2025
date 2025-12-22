@@ -13,3 +13,20 @@
         font-family: var(--font-urbanist);
     }
 }
+
+.collection-card {
+  flex: 1 1 0%;
+  transition: flex 0.5s ease;
+}
+
+.collection-card.active {
+  flex: 2 1 0%;
+}
+
+.card-image {
+  flex: 1 1 50%;
+}
+
+.card-content {
+  flex: 1 1 50%;
+}
