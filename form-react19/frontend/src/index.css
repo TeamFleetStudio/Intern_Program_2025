@@ -1,0 +1,16 @@
+@import 'tailwindcss';
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
+
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Roboto Slab", serif;
+  display: flex;
+  justify-content: center;
+}
+
+input:focus, input:focus-visible, textarea:focus, textarea:focus-visible {
+  box-shadow: none;
+}
