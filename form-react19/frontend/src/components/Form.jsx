@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Form({ onSubmit }) {
+export default function Form({ action, isPending }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -11,7 +11,6 @@ export default function Form({ onSubmit }) {
 
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   function validateField(name, value) {
   let error = "";
@@ -64,33 +63,6 @@ export default function Form({ onSubmit }) {
     }));
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    setIsSubmitted(true);
-
-    const newErrors = {};
-    Object.keys(formData).forEach((field) => {
-      const error = validateField(field, formData[field]);
-      if (error) newErrors[field] = error;
-    });
-
-  setErrors(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
-      onSubmit(formData); 
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        website: "",
-        message: "",
-      });
-      setErrors({});
-      setTouched({});
-      setIsSubmitted(false);
-    }
-  }
-
   return (
     <div className="bg-white p-6 rounded-xl shadow-xl border-t-2 border-stone-200 max-w-md w-full">
       <h2 className="text-3xl font-semibold text-orange-600 mb-1">
@@ -100,7 +72,7 @@ export default function Form({ onSubmit }) {
         We’d love to hear from you.
       </p>
 
-      <form onSubmit={handleSubmit} className="space-y-4 p-3">
+      <form action={action} className="space-y-4 p-3">
         <input
           name="name"
           placeholder="Your name"
@@ -117,7 +89,7 @@ export default function Form({ onSubmit }) {
             onChange={handleChange}
             className="text-xl w-full border border-neutral-200 focus:outline-sky-600 focus:outline-offset-2 rounded px-3 py-2 placeholder:text-xl placeholder:text-stone-500"
           />
-          {(touched.email || isSubmitted) && errors.email && (
+          {touched.email && errors.email && (
             <p className="text-start text-red-500 text-sm">{errors.email}</p>
           )}
         </div>
@@ -130,7 +102,7 @@ export default function Form({ onSubmit }) {
             onChange={handleChange}
             className="text-xl w-full border border-neutral-200 focus:outline-sky-600 focus:outline-offset-2 rounded px-3 py-2 placeholder:text-xl placeholder:text-stone-500"
           />
-          {(touched.phone || isSubmitted) && errors.phone && (
+          {touched.phone && errors.phone && (
             <p className="text-start text-red-500 text-sm">{errors.phone}</p>
           )}
         </div>
@@ -143,7 +115,7 @@ export default function Form({ onSubmit }) {
             onChange={handleChange}
             className="text-xl w-full border border-neutral-200 focus:outline-sky-600 focus:outline-offset-2 rounded px-3 py-2 placeholder:text-xl placeholder:text-stone-500"
           />
-          {(touched.website || isSubmitted) && errors.website && (
+          {touched.website && errors.website && (
             <p className="text-start text-red-500 text-sm">{errors.website}</p>
           )}
         </div>
@@ -159,9 +131,10 @@ export default function Form({ onSubmit }) {
 
         <button
           type="submit"
-          className="w-full bg-orange-600 text-2xl text-white py-2 rounded hover:bg-orange-400 transition"
+          disabled={isPending}
+          className="w-full bg-orange-600 text-2xl text-white py-2 rounded hover:bg-orange-400 transition disabled:opacity-50"
         >
-          Send Message
+          {isPending ? "Sending..." : "Send Message"}
         </button>
       </form>
     </div>
