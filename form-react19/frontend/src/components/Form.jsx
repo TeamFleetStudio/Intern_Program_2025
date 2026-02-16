@@ -36,18 +36,28 @@ if (name === "website") {
     error = "Website URL is required";
   } else {
     try {
-      const url = new URL(
-        value.startsWith("http") ? value : "https://" + value
-      );
+      // Auto add protocol if missing
+      const formattedValue = value.match(/^https?:\/\//i)
+        ? value
+        : "https://" + value;
 
-      if (!url.hostname.includes(".")) {
-        throw new Error();
+      const url = new URL(formattedValue);
+
+      const hostname = url.hostname;
+
+      // Strict domain validation
+      const domainRegex = /^(?!-)([a-z0-9-]{1,63}\.)+[a-z]{2,}$/i;
+
+      if (!domainRegex.test(hostname)) {
+        throw new Error("Invalid domain");
       }
+
     } catch {
       error = "Enter a valid website URL";
     }
   }
 }
+
 
   return error;
 }
