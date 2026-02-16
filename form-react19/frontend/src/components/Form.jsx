@@ -31,13 +31,23 @@ export default function Form({ action, isPending }) {
     }
   }
 
-  if (name === "website") {
-    if (!value) {
-      error = "Website URL is required";
-    } else if (!/^https?:\/\/.+/i.test(value)) {
+if (name === "website") {
+  if (!value) {
+    error = "Website URL is required";
+  } else {
+    try {
+      const url = new URL(
+        value.startsWith("http") ? value : "https://" + value
+      );
+
+      if (!url.hostname.includes(".")) {
+        throw new Error();
+      }
+    } catch {
       error = "Enter a valid website URL";
     }
   }
+}
 
   return error;
 }
@@ -62,6 +72,8 @@ export default function Form({ action, isPending }) {
       [name]: error,
     }));
   }
+
+  const hasErrors = Object.values(errors).some(Boolean);
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-xl border-t-2 border-stone-200 max-w-md w-full">
@@ -131,7 +143,7 @@ export default function Form({ action, isPending }) {
 
         <button
           type="submit"
-          disabled={isPending}
+          disabled={isPending || hasErrors}
           className="w-full bg-orange-600 text-2xl text-white py-2 rounded hover:bg-orange-400 transition disabled:opacity-50"
         >
           {isPending ? "Sending..." : "Send Message"}
